@@ -10,7 +10,7 @@ import json
 class ApiProperValuesTest(unittest.TestCase):
     def setUp(self):
         # Resetting the database after each test so tests are independent
-        requests.delete("http://127.0.0.1:5000/restart")
+        requests.delete("https://recruitment-1-i31j.onrender.com//restart")
         # Assert cars with proper values
         self.car1_data = {
             "make": "Honda",
@@ -35,37 +35,37 @@ class ApiProperValuesTest(unittest.TestCase):
 
     def add_cars(self):
         # Testing  POST/cars endpoint
-        requests.post("http://127.0.0.1:5000/cars", json=self.car1_data)
-        requests.post("http://127.0.0.1:5000/cars", json=self.car2_data)
-        requests.post("http://127.0.0.1:5000/cars", json=self.car3_data)
-        requests.post("http://127.0.0.1:5000/cars", json=self.car4_data)
-        requests.post("http://127.0.0.1:5000/cars", json=self.car5_data)
+        requests.post("https://recruitment-1-i31j.onrender.com/cars", json=self.car1_data)
+        requests.post("https://recruitment-1-i31j.onrender.com/cars", json=self.car2_data)
+        requests.post("https://recruitment-1-i31j.onrender.com/cars", json=self.car3_data)
+        requests.post("https://recruitment-1-i31j.onrender.com/cars", json=self.car4_data)
+        requests.post("https://recruitment-1-i31j.onrender.com/cars", json=self.car5_data)
 
     def rate_cars(self):
-        requests.get("http://127.0.0.1:5000/cars")
+        requests.get("https://recruitment-1-i31j.onrender.com/cars")
         car_tmp = self.car1_data.copy()
         car_tmp["rate"] = 2
-        requests.post("http://127.0.0.1:5000/rate", json=car_tmp)
+        requests.post("https://recruitment-1-i31j.onrender.com/rate", json=car_tmp)
 
         car_tmp = self.car2_data.copy()
         car_tmp["rate"] = 2
-        requests.post("http://127.0.0.1:5000/rate", json=car_tmp)
+        requests.post("https://recruitment-1-i31j.onrender.com/rate", json=car_tmp)
         car_tmp["rate"] = 3
-        requests.post("http://127.0.0.1:5000/rate", json=car_tmp)
+        requests.post("https://recruitment-1-i31j.onrender.com/rate", json=car_tmp)
 
         car_tmp = self.car3_data.copy()
         car_tmp["rate"] = 3
-        requests.post("http://127.0.0.1:5000/rate", json=car_tmp)
+        requests.post("https://recruitment-1-i31j.onrender.com/rate", json=car_tmp)
         car_tmp["rate"] = 2
-        requests.post("http://127.0.0.1:5000/rate", json=car_tmp)
+        requests.post("https://recruitment-1-i31j.onrender.com/rate", json=car_tmp)
         car_tmp["rate"] = 1
-        requests.post("http://127.0.0.1:5000/rate", json=car_tmp)
+        requests.post("https://recruitment-1-i31j.onrender.com/rate", json=car_tmp)
 
     def test_post_cars(self):
         # Adding cars to an api's database
         self.add_cars()
         # Reading added data from database
-        response = requests.get("http://127.0.0.1:5000/cars")
+        response = requests.get("https://recruitment-1-i31j.onrender.com/cars")
         # Loading exemplary answer from json file
         with open('answers1.json') as f:
             answer1 = json.load(f)
@@ -77,7 +77,7 @@ class ApiProperValuesTest(unittest.TestCase):
         self.add_cars()
         # Adding rates to cars in api's database
         self.rate_cars()
-        response = requests.get("http://127.0.0.1:5000/cars")
+        response = requests.get("https://recruitment-1-i31j.onrender.com/cars")
         # Testing POST/rate endpoint by comparing API's response with manually calculated average rate and a
         # number of rates for each car in a database
         self.assertAlmostEqual(response.json()[0]["avg_rate"], 2 / 1)
@@ -93,7 +93,7 @@ class ApiProperValuesTest(unittest.TestCase):
         self.add_cars()
         self.rate_cars()
         # Requesting top 3 most popular cars in API's database
-        response = requests.get("http://127.0.0.1:5000/popular")
+        response = requests.get("https://recruitment-1-i31j.onrender.com/popular")
         # Loading exemplary answer from json file
         with open('answers2.json') as f:
             answer2 = json.load(f)
@@ -102,7 +102,7 @@ class ApiProperValuesTest(unittest.TestCase):
 
     def tearDown(self):
         # Resetting the database after each test so tests are independent
-        requests.delete("http://127.0.0.1:5000/restart")
+        requests.delete("https://recruitment-1-i31j.onrender.com/restart")
 
 
 class ApiImproperValuesTest(unittest.TestCase):
@@ -112,19 +112,19 @@ class ApiImproperValuesTest(unittest.TestCase):
 
         # car1 is a string
         car1 = "Honda CrossTour"
-        response1 = requests.post("http://127.0.0.1:5000/cars", json=car1)
+        response1 = requests.post("https://recruitment-1-i31j.onrender.com/cars", json=car1)
         # Testing if correct error is raised and right code is returned
-        self.assertEqual(response1.text, '{\n  "error": "Invalid key"\n}\n')
+        self.assertEqual(response1.text, '{"error":"Invalid key"}\n')
         self.assertEqual(response1.status_code, 400)
         # car2 is a dictionary by with an incorrect key
         car2 = {
             "make": "Honda",
             "incorrect key": "del Sol"
         }
-        requests.post("http://127.0.0.1:5000/cars", json=car2)
-        response2 = requests.post("http://127.0.0.1:5000/cars", json=car1)
+        requests.post("https://recruitment-1-i31j.onrender.com/cars", json=car2)
+        response2 = requests.post("https://recruitment-1-i31j.onrender.com/cars", json=car1)
         # Testing if correct error is raised and right code is returned
-        self.assertEqual(response2.text, '{\n  "error": "Invalid key"\n}\n')
+        self.assertEqual(response2.text, '{"error":"Invalid key"}\n')
         self.assertEqual(response2.status_code, 400)
 
     def test_car_out_of_vpic_database1(self):
@@ -134,7 +134,7 @@ class ApiImproperValuesTest(unittest.TestCase):
             "model": "Pilot"
         }
         # Attempting to add that car to API's database
-        response = requests.post("http://127.0.0.1:5000/cars", json=car)
+        response = requests.post("https://recruitment-1-i31j.onrender.com/cars", json=car)
         # Testing if correct error is raised and right code is returned
         self.assertEqual(response.json()["error"], "Not found")
         self.assertEqual(response.status_code, 404)
@@ -146,15 +146,15 @@ class ApiImproperValuesTest(unittest.TestCase):
     def test_improper_car_types2(self):
         # Creating cars with wrong type and key
         car1 = "Honda CrossTour 3"
-        requests.post("http://127.0.0.1:5000/cars", json=car1)
+        requests.post("https://recruitment-1-i31j.onrender.com/cars", json=car1)
         car2 = {
             "make": "Honda",
             "incorrect": "Civic",
             "rate": 3
         }
         # Attempting to rate that car
-        requests.post("http://127.0.0.1:5000/cars", json=car2)
-        response = requests.post("http://127.0.0.1:5000/rate", json=car2)
+        requests.post("https://recruitment-1-i31j.onrender.com/cars", json=car2)
+        response = requests.post("https://recruitment-1-i31j.onrender.com/rate", json=car2)
         # Testing if correct error is raised and right code is returned
         self.assertEqual(response.json()["error"], "Invalid key")
         self.assertEqual(response.status_code, 400)
@@ -167,7 +167,7 @@ class ApiImproperValuesTest(unittest.TestCase):
             "rate": 3
         }
         # Attempting to rate that car
-        response = requests.post("http://127.0.0.1:5000/rate", json=car)
+        response = requests.post("https://recruitment-1-i31j.onrender.com/rate", json=car)
         # Testing if correct error is raised and right code is returned
         self.assertEqual(response.json()["error"], "Not found")
         self.assertEqual(response.status_code, 404)
@@ -179,16 +179,16 @@ class ApiImproperValuesTest(unittest.TestCase):
             "model": "Pilot"
         }
         # Rating that car using incorrect rate
-        requests.post("http://127.0.0.1:5000/car", json=car)
+        requests.post("https://recruitment-1-i31j.onrender.com/car", json=car)
         # Rate out of an 1-5 range
         car["rate"] = 7
-        response9 = requests.post("http://127.0.0.1:5000/rate", json=car)
+        response9 = requests.post("https://recruitment-1-i31j.onrender.com/rate", json=car)
         # Testing if correct error is raised and right code is returned
         self.assertEqual(response9.json()["error"], "Invalid value")
         self.assertEqual(response9.status_code, 400)
         # Rate is not an int
         car["rate"] = 3.3
-        response = requests.post("http://127.0.0.1:5000/rate", json=car)
+        response = requests.post("https://recruitment-1-i31j.onrender.com/rate", json=car)
         # Testing if correct error is raised and right code is returned
         self.assertEqual(response.json()["error"], "Invalid value")
         self.assertEqual(response.status_code, 400)
