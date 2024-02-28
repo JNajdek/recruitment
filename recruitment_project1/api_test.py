@@ -9,6 +9,8 @@ import json
 
 class ApiProperValuesTest(unittest.TestCase):
     def setUp(self):
+        # Resetting the database after each test so tests are independent
+        requests.delete("http://127.0.0.1:5000/restart")
         # Assert cars with proper values
         self.car1_data = {
             "make": "Honda",
