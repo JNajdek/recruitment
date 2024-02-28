@@ -20,7 +20,7 @@ def handle_key_error(error):
 
 
 @app.errorhandler(ValueError)
-def handle_key_error(error):
+def handle_value_error(error):
     return jsonify({"error": "Invalid value"}), 400
 
 
@@ -135,4 +135,4 @@ def restart_database():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=1000)
+    app.run(debug=True, port=5000)
