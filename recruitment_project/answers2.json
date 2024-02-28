@@ -1,0 +1,20 @@
+[
+  {
+    "avg_rate": 2.0,
+    "make": "Honda",
+    "model": "Pilot",
+    "number_of_rates": 3
+  },
+  {
+    "avg_rate": 2.5,
+    "make": "Honda",
+    "model": "Civic",
+    "number_of_rates": 2
+  },
+  {
+    "avg_rate": 2,
+    "make": "Honda",
+    "model": "Accord",
+    "number_of_rates": 1
+  }
+]
