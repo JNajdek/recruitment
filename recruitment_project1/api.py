@@ -9,6 +9,11 @@ app = Flask(__name__)
 cars = []
 
 
+@app.errorhandler(404)
+def page_not_found(error):
+    return jsonify({"error": "Page not found"}), 404
+
+
 @app.errorhandler(NameError)
 def handle_name_error(error):
     return jsonify({"error": "Not found"}), 404
